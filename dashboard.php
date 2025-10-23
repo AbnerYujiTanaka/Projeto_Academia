@@ -1,21 +1,15 @@
 <?php
-// 1. Inicia a sessão
-// (Sempre o primeiro passo para acessar ou verificar sessões)
+require_once 'header.php';
+
 session_start();
 
-// 2. A VERIFICAÇÃO DE SEGURANÇA
-// Verifica se a variável de sessão 'usuario_id' NÃO está definida
+
 if (!isset($_SESSION['usuario_id'])) {
     
-    // 3. Se não estiver definida (não logado), expulsa o usuário
-    // Redireciona de volta para a tela de login
-    header("Location: login.php?erro=2"); // ?erro=2 pode ser "Acesso restrito"
-    exit(); // Para o script
+    header("Location: login.php?erro=2"); 
+    exit(); 
 }
 
-// 4. Se o script chegou até aqui, o usuário ESTÁ LOGADO!
-// Podemos buscar o nome dele na sessão para dar boas-vindas.
-// Usamos htmlspecialchars para evitar falhas de segurança (XSS)
 $nome_usuario = htmlspecialchars($_SESSION['usuario_nome']);
 
 ?>
@@ -28,22 +22,25 @@ $nome_usuario = htmlspecialchars($_SESSION['usuario_nome']);
     <title>Dashboard - NEON GYM</title>
     <link rel="stylesheet" href="styles.css"> 
     <style>
-        /* Estilos simples para o dashboard */
+    
         body {
-            background-color: #f0f2f5;
-            color: #333;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #000000;
+            color: #ffffff;
+            min-height: 100vh;
+            line-height: 1.5;
         }
         .dashboard-container {
             max-width: 900px;
             margin: 40px auto;
             padding: 30px;
-            background-color: #fff;
+            background-color: #18181b;
             border-radius: 10px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
             text-align: center;
         }
         h1 {
-            color: #1a1a1a;
+            color: #fff;
         }
         .logout-link {
             display: inline-block;
@@ -70,7 +67,7 @@ $nome_usuario = htmlspecialchars($_SESSION['usuario_nome']);
         
         <p>Aqui você poderá gerenciar alunos, treinos, pagamentos e muito mais.</p>
         
-        <a href="logout.php" class="logout-link">Sair do Sistema</a>
+        <a href="login.php" class="logout-link">Sair do Sistema</a>
     </div>
 
 </body>
