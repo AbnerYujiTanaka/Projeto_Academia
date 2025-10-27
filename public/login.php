@@ -48,7 +48,7 @@
                                 <input type="checkbox">
                                 <span>Lembrar-me</span>
                             </label>
-                            <a href="#" class="forgot-link">Esqueceu a senha?</a>
+                            <a href="recuperar_senha.php" class="forgot-link">Esqueceu a senha?</a>
                         </div>
 
                         <!-- Submit Button -->
