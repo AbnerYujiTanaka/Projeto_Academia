@@ -1,6 +1,6 @@
 <?php
-    require_once 'conexao.php';
-    require_once 'header.php';
+    require_once '../config/conexao.php';
+    require_once '../includes/header.php';
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -8,7 +8,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NEON GYM - Login</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../assets/css/styles.css">
 </head>
 <body>
 
@@ -25,11 +25,16 @@
                                 <line x1="15" x2="3" y1="12" y2="12"/>
                             </svg>
                         </div>
-                        <h2>Bem-vindo de volta</h2>
-                        <p>Entre para continuar seu treino</p>
+                        <h2>Bem-vindo</h2>
+                        <p>Cadastre para começar seu treino</p>
                     </div>
 
-                    <form class="login-form" action="processa_login.php" method="post">
+                    <form class="login-form" action="../actions/processa_cadastro.php" method="post">
+                        <div class="form-group">
+                            <label for="nome">Nome</label>
+                            <input type="text" id="email" name="nome" placeholder="Nome" required>
+                        </div>
+
                         <!-- Email Input -->
                         <div class="form-group">
                             <label for="email">Email</label>
@@ -42,23 +47,16 @@
                             <input type="password" id="password" name="senha" placeholder="••••••••" required>
                         </div>
 
-                        <!-- Remember & Forgot -->
-                        <div class="form-options">
-                            <label class="checkbox-label">
-                                <input type="checkbox">
-                                <span>Lembrar-me</span>
-                            </label>
-                            <a href="#" class="forgot-link">Esqueceu a senha?</a>
-                        </div>
+                       
 
                         <!-- Submit Button -->
-                        <button type="submit" class="btn-submit">Entrar</button>
+                        <button type="submit" class="btn-submit">Cadastrar</button>
                     </form>
 
                     <!-- Sign Up Link -->
                     <div class="signup-link">
-                        <span>Não tem uma conta? </span>
-                        <a href="cadastro.php">Cadastre-se</a>
+                        <span>Já tem uma conta? </span>
+                        <a href="login.php">Entrar</a>
                     </div>
                 </div>
 
@@ -69,6 +67,8 @@
             </div>
         </div>
     </main>
-
 </body>
 </html>
+
+
+
