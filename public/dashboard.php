@@ -1,17 +1,17 @@
 <?php
-require_once '../includes/header.php';
-
 session_start();
 
-
+// aqui já é uma verifiação se o cliente/usuário está logado
 if (!isset($_SESSION['usuario_id'])) {
     
     header("Location: login.php?erro=2"); 
     exit(); 
 }
 
+// aqui ele está pegando os dados do cliente/usuário
 $nome_usuario = htmlspecialchars($_SESSION['usuario_nome']);
 
+require_once '../includes/header.php';
 ?>
 
 <!DOCTYPE html>
