@@ -1,17 +1,18 @@
 <?php
-require_once '../includes/header.php';
-
 session_start();
 
-
+// aqui já é uma verifiação se o cliente/usuário está logado
 if (!isset($_SESSION['usuario_id'])) {
     
     header("Location: login.php?erro=2"); 
     exit(); 
 }
 
-$nome_usuario = htmlspecialchars($_SESSION['usuario_nome']);
+// aqui ele está pegando os dados do cliente/usuário
+// Garante que sempre use o nome, nunca o email
+$nome_usuario = !empty($_SESSION['usuario_nome']) ? htmlspecialchars($_SESSION['usuario_nome']) : 'Usuário';
 
+require_once '../includes/header.php';
 ?>
 
 <!DOCTYPE html>
@@ -63,7 +64,7 @@ $nome_usuario = htmlspecialchars($_SESSION['usuario_nome']);
         <h1>Painel de Controle - NEON GYM</h1>
         <hr style="margin: 20px 0;">
         
-        <h2>Bem-vindo(a), <?php echo $nome_usuario; ?>!</h2>
+        <h2>Seja bem vindo, <?php echo $nome_usuario; ?>!</h2>
         
         <p>Aqui você poderá gerenciar alunos, treinos, pagamentos e muito mais.</p>
         

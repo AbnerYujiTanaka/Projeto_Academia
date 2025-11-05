@@ -32,7 +32,7 @@
                     <form class="login-form" action="../actions/processa_cadastro.php" method="post">
                         <div class="form-group">
                             <label for="nome">Nome</label>
-                            <input type="text" id="email" name="nome" placeholder="Nome" required>
+                            <input type="text" id="nome" name="nome" placeholder="Seu nome completo" required>
                         </div>
 
                         <!-- Email Input -->

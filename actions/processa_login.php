@@ -10,7 +10,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     try {
     
-        $sql = "SELECT * FROM usuarios WHERE email = ?";
+        // Seleciona explicitamente os campos necessários
+        $sql = "SELECT id, nome, email, senha_hash FROM usuarios WHERE email = ?";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$email]);
 
@@ -19,9 +20,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($usuario && password_verify($senha_pura, $usuario['senha_hash'])) {
             
+            // Garante que o nome seja usado (não o email)
+            $nome_usuario = !empty($usuario['nome']) ? trim($usuario['nome']) : $usuario['email'];
 
             $_SESSION['usuario_id'] = $usuario['id'];
-            $_SESSION['usuario_nome'] = $usuario['nome'];
+            $_SESSION['usuario_nome'] = $nome_usuario;
             $_SESSION['usuario_email'] = $usuario['email'];
 
             header("Location: ../public/dashboard.php");

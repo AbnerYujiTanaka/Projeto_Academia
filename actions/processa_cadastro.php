@@ -16,15 +16,21 @@ require '../config/conexao.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // 3. Pega os dados do formulário
-    $nome = trim($_POST['nome']);
-    $email = trim($_POST['email']);
-    $senha_pura = trim($_POST['senha']); // A senha que o usuário digitou
+    $nome = trim($_POST['nome'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+    $senha_pura = trim($_POST['senha'] ?? ''); // A senha que o usuário digitou
 
     // 4. VALIDAÇÃO BÁSICA (Exemplo: verificar se campos estão vazios)
     // (Você pode adicionar mais validações aqui, como força da senha)
     if (empty($nome) || empty($email) || empty($senha_pura)) {
         // Redireciona de volta com erro
         header("Location: ../public/cadastro.php?erro=campos");
+        exit;
+    }
+    
+    // Validação adicional: garante que o nome não seja igual ao email
+    if ($nome === $email) {
+        header("Location: ../public/cadastro.php?erro=nome_invalido");
         exit;
     }
 
