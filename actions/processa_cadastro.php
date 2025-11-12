@@ -42,7 +42,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
         
         // 7. Prepara o SQL para INSERIR os dados
-        $sql = "INSERT INTO usuarios (nome, email, senha_hash) VALUES (?, ?, ?)";
+        // Usuários cadastrados pelo formulário sempre são 'aluno'
+        $sql = "INSERT INTO usuarios (nome, email, senha_hash, tipo_usuario) VALUES (?, ?, ?, 'aluno')";
         
         $stmt = $pdo->prepare($sql);
         
