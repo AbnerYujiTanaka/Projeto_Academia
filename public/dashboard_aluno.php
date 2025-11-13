@@ -109,6 +109,21 @@ require_once '../includes/header.php';
             color: #9ca3af;
             font-size: 0.95rem;
             line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        .card-action {
+            display: inline-block;
+            padding: 8px 20px;
+            background-color: rgba(6, 182, 212, 0.2);
+            color: #06b6d4;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        .card-action:hover {
+            background-color: #06b6d4;
+            color: #000;
         }
         .actions {
             text-align: center;
@@ -164,6 +179,7 @@ require_once '../includes/header.php';
                 </div>
                 <h3>Meus Treinos</h3>
                 <p>Visualize e acompanhe seus treinos personalizados pelo seu treinador.</p>
+                <a href="ver_treinos.php" class="card-action">Acessar →</a>
             </div>
 
             <div class="dashboard-card">

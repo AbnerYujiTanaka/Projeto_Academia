@@ -252,7 +252,7 @@ try {
                 </div>
                 <h3>Criar Treinos</h3>
                 <p>Crie e personalize treinos para seus alunos com exercícios e séries específicas.</p>
-                <a href="#" class="card-action">Acessar →</a>
+                <a href="criar_treino.php" class="card-action">Acessar →</a>
             </div>
 
             <div class="dashboard-card">
