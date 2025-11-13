@@ -138,3 +138,7 @@ Aluno:
 - Verifique permissões de leitura do arquivo
 
 
+
+
+
+

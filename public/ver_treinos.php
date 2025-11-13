@@ -29,6 +29,23 @@ try {
     ");
     $stmt->execute([$aluno_id]);
     $treinos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    // Buscar exercícios para cada treino
+    foreach ($treinos as &$treino) {
+        try {
+            $stmt_exercicios = $pdo->prepare("
+                SELECT exercicio, series, repeticoes, descricao 
+                FROM treino_exercicios 
+                WHERE treino_id = ? 
+                ORDER BY ordem ASC
+            ");
+            $stmt_exercicios->execute([$treino['id']]);
+            $treino['exercicios'] = $stmt_exercicios->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            $treino['exercicios'] = [];
+        }
+    }
+    unset($treino);
 } catch (PDOException $e) {
     $treinos = [];
 }
@@ -155,6 +172,40 @@ try {
             color: #06b6d4;
             margin-bottom: 10px;
         }
+        .planilha-exercicios {
+            margin-top: 20px;
+        }
+        .planilha-view {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            background-color: #18181b;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .planilha-view thead {
+            background-color: rgba(6, 182, 212, 0.2);
+        }
+        .planilha-view th {
+            padding: 12px;
+            text-align: left;
+            color: #06b6d4;
+            font-weight: 600;
+            border-bottom: 2px solid rgba(6, 182, 212, 0.3);
+            font-size: 0.9rem;
+        }
+        .planilha-view td {
+            padding: 10px 12px;
+            border-bottom: 1px solid rgba(6, 182, 212, 0.1);
+            color: #fff;
+            font-size: 0.9rem;
+        }
+        .planilha-view tbody tr:last-child td {
+            border-bottom: none;
+        }
+        .planilha-view tbody tr:hover {
+            background-color: rgba(6, 182, 212, 0.05);
+        }
     </style>
 </head>
 <body>
@@ -198,12 +249,36 @@ try {
                             </div>
                         <?php endif; ?>
 
+                        <?php if (!empty($treino['exercicios'])): ?>
+                            <div class="planilha-exercicios">
+                                <h4 style="color: #06b6d4; margin: 20px 0 15px 0; font-size: 1.1rem;">Planilha de Exercícios</h4>
+                                <table class="planilha-view">
+                                    <thead>
+                                        <tr>
+                                            <th>Exercício</th>
+                                            <th>Séries</th>
+                                            <th>Repetições</th>
+                                            <th>Descrição</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($treino['exercicios'] as $exercicio): ?>
+                                            <tr>
+                                                <td><?php echo htmlspecialchars($exercicio['exercicio']); ?></td>
+                                                <td><?php echo $exercicio['series'] ? htmlspecialchars($exercicio['series']) : '-'; ?></td>
+                                                <td><?php echo !empty($exercicio['repeticoes']) ? htmlspecialchars($exercicio['repeticoes']) : '-'; ?></td>
+                                                <td><?php echo !empty($exercicio['descricao']) ? htmlspecialchars($exercicio['descricao']) : '-'; ?></td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <?php endif; ?>
+
                         <?php if (!empty($treino['arquivo_planilha'])): ?>
-                            <a href="download_treino.php?id=<?php echo $treino['id']; ?>" class="btn-download">
-                                📥 Baixar Planilha
+                            <a href="download_treino.php?id=<?php echo $treino['id']; ?>" class="btn-download" style="margin-top: 15px;">
+                                📥 Baixar Planilha Anexada
                             </a>
-                        <?php else: ?>
-                            <p style="color: #9ca3af; font-size: 0.9rem; margin-top: 10px;">Nenhuma planilha anexada</p>
                         <?php endif; ?>
                     </div>
                 <?php endforeach; ?>
@@ -213,5 +288,9 @@ try {
 
 </body>
 </html>
+
+
+
+
 
 
