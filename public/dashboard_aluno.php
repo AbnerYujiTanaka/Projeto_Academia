@@ -190,7 +190,8 @@ require_once '../includes/header.php';
                     </svg>
                 </div>
                 <h3>Progresso</h3>
-                <p>Acompanhe sua evolução, medidas e resultados ao longo do tempo.</p>
+                <p>Anote as cargas utilizadas durante seus treinos e acompanhe sua evolução.</p>
+                <a href="progresso.php" class="card-action">Acessar →</a>
             </div>
 
             <div class="dashboard-card">

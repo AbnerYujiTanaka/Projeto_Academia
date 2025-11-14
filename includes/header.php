@@ -12,7 +12,7 @@
                         <path d="m3 10 7-7"/>
                         <path d="m14 21 7-7"/>
                     </svg>
-                    <span class="logo-text">NEON GYM</span>
+                    <span class="logo-text">KAE GYM</span>
                 </div>
 
                 <!-- Navigation -->
