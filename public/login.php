@@ -9,6 +9,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NEON GYM - Login</title>
     <link rel="stylesheet" href="../assets/css/styles.css">
+    <style>
+        /* 
+         * Para usar sua própria imagem:
+         * 1. Coloque a imagem na pasta assets/images/
+         * 2. Renomeie para: login-wallpaper.jpg (ou .png)
+         * 3. O código abaixo já está configurado para usar essa imagem
+         */
+        body {
+            background-image: url('../assets/images/login-wallpaper.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            position: relative;
+            min-height: 100vh;
+        }
+        
+        /* Fallback caso a imagem não seja encontrada */
+        body {
+            background-color: #000000;
+        }
+        
+        /* Overlay escuro para melhorar legibilidade do formulário */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.75) 100%);
+            z-index: -1;
+        }
+        
+        /* Card de login com transparência e blur */
+        .login-card {
+            background-color: rgba(24, 24, 27, 0.03);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 50px rgba(6, 182, 212, 0.2);
+        }
+        
+        /* Garantir que o conteúdo fique acima do overlay */
+        main.container {
+            position: relative;
+            z-index: 1;
+        }
+    </style>
 </head>
 <body>
 
