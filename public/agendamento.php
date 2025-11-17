@@ -33,47 +33,54 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         // Validar se a data não é no passado
         $data_consulta_obj = DateTime::createFromFormat('Y-m-d', $data_consulta);
-        $hoje = new DateTime();
-        $hoje->setTime(0, 0, 0);
         
-        if ($data_consulta_obj < $hoje) {
-            $mensagem = 'Não é possível agendar consultas em datas passadas.';
+        // Verificar se a data é válida
+        if ($data_consulta_obj === false) {
+            $mensagem = 'Data inválida. Por favor, selecione uma data válida.';
             $tipo_mensagem = 'erro';
         } else {
-            // Verificar se o treinador existe e é realmente um treinador
-            try {
-                $stmt = $pdo->prepare("SELECT id FROM usuarios WHERE id = ? AND tipo_usuario = 'treinador'");
-                $stmt->execute([$treinador_id]);
-                if (!$stmt->fetch()) {
-                    $mensagem = 'Treinador inválido.';
-                    $tipo_mensagem = 'erro';
-                } else {
-                    // Verificar se já existe agendamento no mesmo horário
-                    $stmt = $pdo->prepare("SELECT id FROM agendamentos WHERE treinador_id = ? AND data_consulta = ? AND hora_consulta = ? AND status != 'cancelado'");
-                    $stmt->execute([$treinador_id, $data_consulta, $hora_consulta]);
-                    if ($stmt->fetch()) {
-                        $mensagem = 'Este horário já está ocupado. Por favor, escolha outro horário.';
+            $hoje = new DateTime();
+            $hoje->setTime(0, 0, 0);
+            
+            if ($data_consulta_obj < $hoje) {
+                $mensagem = 'Não é possível agendar consultas em datas passadas.';
+                $tipo_mensagem = 'erro';
+            } else {
+                // Verificar se o treinador existe e é realmente um treinador
+                try {
+                    $stmt = $pdo->prepare("SELECT id FROM usuarios WHERE id = ? AND tipo_usuario = 'treinador'");
+                    $stmt->execute([$treinador_id]);
+                    if (!$stmt->fetch()) {
+                        $mensagem = 'Treinador inválido.';
                         $tipo_mensagem = 'erro';
                     } else {
-                        // Inserir agendamento
-                        try {
-                            $stmt = $pdo->prepare("INSERT INTO agendamentos (aluno_id, treinador_id, data_consulta, hora_consulta, observacoes, status) VALUES (?, ?, ?, ?, ?, 'agendado')");
-                            $stmt->execute([$aluno_id, $treinador_id, $data_consulta, $hora_consulta, $observacoes]);
-                            
-                            $mensagem = 'Consulta agendada com sucesso!';
-                            $tipo_mensagem = 'sucesso';
-                            
-                            // Limpar campos após sucesso
-                            $_POST = array();
-                        } catch (PDOException $e) {
-                            $mensagem = 'Erro ao agendar consulta: ' . $e->getMessage();
+                        // Verificar se já existe agendamento no mesmo horário
+                        $stmt = $pdo->prepare("SELECT id FROM agendamentos WHERE treinador_id = ? AND data_consulta = ? AND hora_consulta = ? AND status != 'cancelado'");
+                        $stmt->execute([$treinador_id, $data_consulta, $hora_consulta]);
+                        if ($stmt->fetch()) {
+                            $mensagem = 'Este horário já está ocupado. Por favor, escolha outro horário.';
                             $tipo_mensagem = 'erro';
+                        } else {
+                            // Inserir agendamento
+                            try {
+                                $stmt = $pdo->prepare("INSERT INTO agendamentos (aluno_id, treinador_id, data_consulta, hora_consulta, observacoes, status) VALUES (?, ?, ?, ?, ?, 'agendado')");
+                                $stmt->execute([$aluno_id, $treinador_id, $data_consulta, $hora_consulta, $observacoes]);
+                                
+                                $mensagem = 'Consulta agendada com sucesso!';
+                                $tipo_mensagem = 'sucesso';
+                                
+                                // Limpar campos após sucesso
+                                $_POST = array();
+                            } catch (PDOException $e) {
+                                $mensagem = 'Erro ao agendar consulta: ' . $e->getMessage();
+                                $tipo_mensagem = 'erro';
+                            }
                         }
                     }
+                } catch (PDOException $e) {
+                    $mensagem = 'Erro ao validar treinador: ' . $e->getMessage();
+                    $tipo_mensagem = 'erro';
                 }
-            } catch (PDOException $e) {
-                $mensagem = 'Erro ao validar treinador: ' . $e->getMessage();
-                $tipo_mensagem = 'erro';
             }
         }
     }

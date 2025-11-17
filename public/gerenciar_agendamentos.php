@@ -33,39 +33,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['acao']) && $_POST['aca
     } else {
         // Validar se a data não é no passado
         $data_consulta_obj = DateTime::createFromFormat('Y-m-d', $data_consulta);
-        $hoje = new DateTime();
-        $hoje->setTime(0, 0, 0);
         
-        if ($data_consulta_obj < $hoje) {
-            $mensagem = 'Não é possível agendar consultas em datas passadas.';
+        // Verificar se a data é válida
+        if ($data_consulta_obj === false) {
+            $mensagem = 'Data inválida. Por favor, selecione uma data válida.';
             $tipo_mensagem = 'erro';
         } else {
-            // Verificar se já existe agendamento no mesmo horário
-            try {
-                $stmt = $pdo->prepare("SELECT id FROM agendamentos WHERE treinador_id = ? AND data_consulta = ? AND hora_consulta = ? AND status != 'cancelado'");
-                $stmt->execute([$treinador_id, $data_consulta, $hora_consulta]);
-                if ($stmt->fetch()) {
-                    $mensagem = 'Este horário já está ocupado. Por favor, escolha outro horário.';
-                    $tipo_mensagem = 'erro';
-                } else {
-                    // Inserir agendamento
-                    try {
-                        $stmt = $pdo->prepare("INSERT INTO agendamentos (aluno_id, treinador_id, data_consulta, hora_consulta, observacoes, status) VALUES (?, ?, ?, ?, ?, 'agendado')");
-                        $stmt->execute([$aluno_id, $treinador_id, $data_consulta, $hora_consulta, $observacoes]);
-                        
-                        $mensagem = 'Consulta criada com sucesso!';
-                        $tipo_mensagem = 'sucesso';
-                        
-                        // Limpar campos após sucesso
-                        $_POST = array();
-                    } catch (PDOException $e) {
-                        $mensagem = 'Erro ao criar consulta: ' . $e->getMessage();
-                        $tipo_mensagem = 'erro';
-                    }
-                }
-            } catch (PDOException $e) {
-                $mensagem = 'Erro ao verificar disponibilidade: ' . $e->getMessage();
+            $hoje = new DateTime();
+            $hoje->setTime(0, 0, 0);
+            
+            if ($data_consulta_obj < $hoje) {
+                $mensagem = 'Não é possível agendar consultas em datas passadas.';
                 $tipo_mensagem = 'erro';
+            } else {
+                // Verificar se já existe agendamento no mesmo horário
+                try {
+                    $stmt = $pdo->prepare("SELECT id FROM agendamentos WHERE treinador_id = ? AND data_consulta = ? AND hora_consulta = ? AND status != 'cancelado'");
+                    $stmt->execute([$treinador_id, $data_consulta, $hora_consulta]);
+                    if ($stmt->fetch()) {
+                        $mensagem = 'Este horário já está ocupado. Por favor, escolha outro horário.';
+                        $tipo_mensagem = 'erro';
+                    } else {
+                        // Inserir agendamento
+                        try {
+                            $stmt = $pdo->prepare("INSERT INTO agendamentos (aluno_id, treinador_id, data_consulta, hora_consulta, observacoes, status) VALUES (?, ?, ?, ?, ?, 'agendado')");
+                            $stmt->execute([$aluno_id, $treinador_id, $data_consulta, $hora_consulta, $observacoes]);
+                            
+                            $mensagem = 'Consulta criada com sucesso!';
+                            $tipo_mensagem = 'sucesso';
+                            
+                            // Limpar campos após sucesso
+                            $_POST = array();
+                        } catch (PDOException $e) {
+                            $mensagem = 'Erro ao criar consulta: ' . $e->getMessage();
+                            $tipo_mensagem = 'erro';
+                        }
+                    }
+                } catch (PDOException $e) {
+                    $mensagem = 'Erro ao verificar disponibilidade: ' . $e->getMessage();
+                    $tipo_mensagem = 'erro';
+                }
             }
         }
     }
