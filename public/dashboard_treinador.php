@@ -25,6 +25,15 @@ try {
 } catch (PDOException $e) {
     $total_alunos = 0;
 }
+
+// Contar agendamentos pendentes
+try {
+    $stmt = $pdo->prepare("SELECT COUNT(*) as total FROM agendamentos WHERE treinador_id = ? AND status IN ('agendado', 'confirmado')");
+    $stmt->execute([$_SESSION['usuario_id']]);
+    $total_agendamentos = $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+} catch (PDOException $e) {
+    $total_agendamentos = 0;
+}
 ?>
 
 <!DOCTYPE html>
@@ -220,8 +229,8 @@ try {
                 <div class="stat-number">-</div>
             </div>
             <div class="stat-card">
-                <div class="stat-label">Avaliações Pendentes</div>
-                <div class="stat-number">-</div>
+                <div class="stat-label">Agendamentos Pendentes</div>
+                <div class="stat-number"><?php echo $total_agendamentos; ?></div>
             </div>
         </div>
 
@@ -280,7 +289,7 @@ try {
                 </div>
                 <h3>Agendamentos</h3>
                 <p>Gerencie agendamentos de aulas, avaliações físicas e consultas.</p>
-                <a href="#" class="card-action">Acessar →</a>
+                <a href="gerenciar_agendamentos.php" class="card-action">Acessar →</a>
             </div>
 
             <div class="dashboard-card">

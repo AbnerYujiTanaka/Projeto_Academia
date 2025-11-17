@@ -205,6 +205,7 @@ require_once '../includes/header.php';
                 </div>
                 <h3>Agendamentos</h3>
                 <p>Agende suas aulas, consultas e avaliações físicas.</p>
+                <a href="agendamento.php" class="card-action">Acessar →</a>
             </div>
 
             <div class="dashboard-card">
