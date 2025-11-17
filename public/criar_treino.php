@@ -306,7 +306,7 @@ $nome_usuario = !empty($_SESSION['usuario_nome']) ? htmlspecialchars($_SESSION['
     <div class="container">
         <div class="header">
             <h1>Criar Novo Treino</h1>
-            <p>Crie uma planilha de treino personalizada com exercícios, séries e repetições</p>
+            <p>Aqui você pode criar uma planilha de treino personalizada com exercícios, séries e repetições</p>
         </div>
 
         <?php if ($mensagem): ?>
