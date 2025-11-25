@@ -246,7 +246,7 @@ try {
                 </div>
                 <h3>Gerenciar Alunos</h3>
                 <p>Visualize, edite e gerencie todos os alunos cadastrados na academia.</p>
-                <a href="#" class="card-action">Acessar →</a>
+                <a href="gerenciar_alunos.php" class="card-action">Acessar →</a>
             </div>
 
             <div class="dashboard-card">
