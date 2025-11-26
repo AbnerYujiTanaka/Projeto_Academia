@@ -91,10 +91,7 @@ $_SESSION['tipo_usuario'] // 'aluno' ou 'treinador'
 ### Treinadores (dashboard_treinador.php)
 - Gerenciar alunos
 - Criar treinos
-- Gerar relatórios
 - Agendamentos
-- Avaliações físicas
-- Configurações
 
 ## ⚠️ Segurança
 

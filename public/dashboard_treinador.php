@@ -267,20 +267,6 @@ try {
             <div class="dashboard-card">
                 <div class="dashboard-card-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M3 3v18h18"></path>
-                        <path d="M18 7v9"></path>
-                        <path d="M13 7v13"></path>
-                        <path d="M8 7v5"></path>
-                    </svg>
-                </div>
-                <h3>Relatórios</h3>
-                <p>Gere relatórios de progresso, frequência e resultados dos alunos.</p>
-                <a href="#" class="card-action">Acessar →</a>
-            </div>
-
-            <div class="dashboard-card">
-                <div class="dashboard-card-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
                         <line x1="16" y1="2" x2="16" y2="6"></line>
                         <line x1="8" y1="2" x2="8" y2="6"></line>
@@ -288,36 +274,13 @@ try {
                     </svg>
                 </div>
                 <h3>Agendamentos</h3>
-                <p>Gerencie agendamentos de aulas, avaliações físicas e consultas.</p>
+                <p>Gerencie agendamentos de aulas e consultas.</p>
                 <a href="gerenciar_agendamentos.php" class="card-action">Acessar →</a>
-            </div>
-
-            <div class="dashboard-card">
-                <div class="dashboard-card-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <path d="M12 6v6l4 2"></path>
-                    </svg>
-                </div>
-                <h3>Avaliações Físicas</h3>
-                <p>Registre e acompanhe avaliações físicas dos alunos.</p>
-                <a href="#" class="card-action">Acessar →</a>
-            </div>
-
-            <div class="dashboard-card">
-                <div class="dashboard-card-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                </div>
-                <h3>Configurações</h3>
-                <p>Ajuste as configurações do sistema e gerencie permissões.</p>
-                <a href="#" class="card-action">Acessar →</a>
             </div>
         </div>
 
         <div class="actions">
-            <a href="login.php" class="btn-action btn-danger">Sair do Sistema</a>
+            <a href="logout.php" class="btn-action btn-danger">Sair do Sistema</a>
         </div>
     </div>
 

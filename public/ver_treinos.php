@@ -206,7 +206,206 @@ try {
         .planilha-view tbody tr:hover {
             background-color: rgba(6, 182, 212, 0.05);
         }
+        .btn-print {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: rgba(6, 182, 212, 0.2);
+            color: #06b6d4;
+            text-decoration: none;
+            border-radius: 5px;
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            margin-right: 10px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .btn-print:hover {
+            background-color: #06b6d4;
+            color: #000;
+        }
+        .treino-actions {
+            margin-top: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        /* Estilos para impressão */
+        @media print {
+            body {
+                background-color: #fff;
+                color: #000;
+            }
+            .container {
+                max-width: 100%;
+                margin: 0;
+                padding: 20px;
+                background-color: #fff;
+                border: none;
+                box-shadow: none;
+            }
+            .header {
+                border-bottom: 2px solid #000;
+                margin-bottom: 20px;
+            }
+            .header h1 {
+                color: #000;
+            }
+            .btn-back,
+            .btn-download,
+            .btn-print,
+            .treino-actions {
+                display: none !important;
+            }
+            .treinos-grid {
+                display: block;
+            }
+            .treino-card {
+                background-color: #fff;
+                border: 1px solid #000;
+                border-radius: 0;
+                padding: 20px;
+                margin-bottom: 30px;
+                page-break-inside: avoid;
+                box-shadow: none;
+            }
+            .treino-card h3 {
+                color: #000;
+                border-bottom: 2px solid #000;
+                padding-bottom: 10px;
+                margin-bottom: 15px;
+            }
+            .treino-info p {
+                color: #000;
+            }
+            .treino-info strong {
+                color: #000;
+            }
+            .treino-descricao {
+                background-color: #f5f5f5;
+                border-left: 3px solid #000;
+                color: #000;
+            }
+            .planilha-view {
+                background-color: #fff;
+                border: 1px solid #000;
+            }
+            .planilha-view thead {
+                background-color: #f0f0f0;
+            }
+            .planilha-view th {
+                color: #000;
+                border-bottom: 2px solid #000;
+            }
+            .planilha-view td {
+                color: #000;
+                border-bottom: 1px solid #ccc;
+            }
+            .planilha-view tbody tr:last-child td {
+                border-bottom: 1px solid #ccc;
+            }
+            @page {
+                margin: 2cm;
+            }
+        }
     </style>
+    <script>
+        function imprimirTreino(treinoId) {
+            // Criar uma nova janela para impressão
+            const treinoCard = document.querySelector(`[data-treino-id="${treinoId}"]`);
+            if (!treinoCard) return;
+
+            // Criar conteúdo para impressão
+            const conteudoImpressao = treinoCard.cloneNode(true);
+            
+            // Remover botões do clone
+            const actions = conteudoImpressao.querySelector('.treino-actions');
+            if (actions) actions.remove();
+
+            // Criar janela de impressão
+            const janelaImpressao = window.open('', '_blank', 'width=800,height=600');
+            janelaImpressao.document.write(`
+                <!DOCTYPE html>
+                <html lang="pt-BR">
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Treino - ${treinoCard.querySelector('h3').textContent}</title>
+                    <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                            padding: 20px;
+                            color: #000;
+                            background: #fff;
+                        }
+                        h3 {
+                            color: #000;
+                            border-bottom: 2px solid #000;
+                            padding-bottom: 10px;
+                            margin-bottom: 15px;
+                        }
+                        .treino-info p {
+                            color: #000;
+                            margin: 8px 0;
+                        }
+                        .treino-info strong {
+                            color: #000;
+                        }
+                        .treino-descricao {
+                            background-color: #f5f5f5;
+                            border-left: 3px solid #000;
+                            color: #000;
+                            padding: 15px;
+                            margin: 15px 0;
+                        }
+                        .planilha-view {
+                            width: 100%;
+                            border-collapse: collapse;
+                            margin-top: 10px;
+                            border: 1px solid #000;
+                        }
+                        .planilha-view thead {
+                            background-color: #f0f0f0;
+                        }
+                        .planilha-view th {
+                            padding: 12px;
+                            text-align: left;
+                            color: #000;
+                            font-weight: 600;
+                            border-bottom: 2px solid #000;
+                        }
+                        .planilha-view td {
+                            padding: 10px 12px;
+                            border-bottom: 1px solid #ccc;
+                            color: #000;
+                        }
+                        .planilha-view tbody tr:last-child td {
+                            border-bottom: 1px solid #ccc;
+                        }
+                        @media print {
+                            @page {
+                                margin: 2cm;
+                            }
+                            body {
+                                padding: 0;
+                            }
+                        }
+                    </style>
+                </head>
+                <body>
+                    ${conteudoImpressao.innerHTML}
+                </body>
+                </html>
+            `);
+            janelaImpressao.document.close();
+            
+            // Aguardar carregamento e imprimir
+            janelaImpressao.onload = function() {
+                setTimeout(function() {
+                    janelaImpressao.print();
+                }, 250);
+            };
+        }
+    </script>
 </head>
 <body>
 
@@ -232,7 +431,7 @@ try {
         <?php else: ?>
             <div class="treinos-grid">
                 <?php foreach ($treinos as $treino): ?>
-                    <div class="treino-card">
+                    <div class="treino-card" data-treino-id="<?php echo $treino['id']; ?>">
                         <h3><?php echo htmlspecialchars($treino['nome_treino']); ?></h3>
                         
                         <div class="treino-info">
@@ -275,11 +474,16 @@ try {
                             </div>
                         <?php endif; ?>
 
-                        <?php if (!empty($treino['arquivo_planilha'])): ?>
-                            <a href="download_treino.php?id=<?php echo $treino['id']; ?>" class="btn-download" style="margin-top: 15px;">
-                                📥 Baixar Planilha Anexada
-                            </a>
-                        <?php endif; ?>
+                        <div class="treino-actions">
+                            <button onclick="imprimirTreino(<?php echo $treino['id']; ?>)" class="btn-print">
+                                🖨️ Imprimir Treino
+                            </button>
+                            <?php if (!empty($treino['arquivo_planilha'])): ?>
+                                <a href="download_treino.php?id=<?php echo $treino['id']; ?>" class="btn-download">
+                                    📥 Baixar Planilha Anexada
+                                </a>
+                            <?php endif; ?>
+                        </div>
                     </div>
                 <?php endforeach; ?>
             </div>

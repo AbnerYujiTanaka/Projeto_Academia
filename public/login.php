@@ -76,6 +76,12 @@
                         <p>Entre para continuar seu treino</p>
                     </div>
 
+                    <?php if (isset($_GET['logout']) && $_GET['logout'] == '1'): ?>
+                        <div style="background-color: rgba(6, 182, 212, 0.2); border: 1px solid #06b6d4; color: #06b6d4; padding: 12px; border-radius: 8px; margin-bottom: 20px; text-align: center;">
+                            <strong>✓</strong> Você saiu do sistema com sucesso!
+                        </div>
+                    <?php endif; ?>
+
                     <form class="login-form" action="../actions/processa_login.php" method="post">
                         <!-- Email Input -->
                         <div class="form-group">
